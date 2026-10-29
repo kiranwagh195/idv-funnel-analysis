@@ -1,0 +1,51 @@
+# Auto-generated findings (python src/analysis.py)
+
+Sessions: 60,000   Overall approval: 67.3%
+
+## Funnel
+        stage  sessions  pct_of_start  step_conversion_pct
+      Started     60000         100.0                  NaN
+    Upload OK     55150          91.9                 91.9
+       OCR OK     46861          78.1                 85.0
+Face match OK     41611          69.4                 88.8
+     Approved     40360          67.3                 97.0
+
+## Weakest OCR segments (doc x device)
+       doc_type        device_type  uploads  ocr_success_pct  end_to_end_approval_pct
+       Passport  Android (low-end)     1937             67.0                     51.3
+       Voter ID  Android (low-end)     1720             67.7                     51.1
+Driving Licence  Android (low-end)     2738             72.0                     53.1
+        Aadhaar  Android (low-end)     5336             79.2                     58.7
+       Voter ID Android (mid/high)     2125             79.5                     63.7
+Driving Licence                Web     1333             80.4                     66.2
+
+## Failure reasons (top 8)
+failure_stage          failure_reason  failed_sessions  pct_of_all_failures  cumulative_pct
+          ocr            blurry_image             3276                 16.7            16.7
+          ocr field_extraction_failed             2501                 12.7            29.4
+       upload         network_timeout             2357                 12.0            41.4
+   face_match         liveness_failed             2181                 11.1            52.5
+          ocr                   glare             1879                  9.6            62.1
+       upload          user_abandoned             1497                  7.6            69.7
+   face_match           face_mismatch             1421                  7.2            76.9
+       upload          file_too_large              996                  5.1            82.0
+
+## Face-match by app version
+app_version  reached_face_step  face_match_pass_pct
+        4.7              10070                 92.0
+        4.8              12030                 79.4
+        4.9              18077                 92.0
+
+## OCR latency
+                 calls  p50_ms  p95_ms  pct_over_3s
+doc_type                                           
+Driving Licence   9476  1896.5  4718.0         18.5
+Passport          6721  1585.0  4039.0         11.1
+Voter ID          6041  1101.0  2739.0          3.8
+Aadhaar          18667   936.0  2310.7          2.6
+PAN              14245   867.0  2108.8          2.1
+
+## Impact sizing (approval-rate points gained if fixed)
+Low-end Android OCR 76.0% -> 88.2% (mid/high Android):  +2.70 pts
+v4.8 face-match 79.4% -> 92.0% (v4.9 level):                     +2.46 pts
+Night (00-05h) face-match 83.5% -> 89.1% (daytime level):          +0.26 pts
